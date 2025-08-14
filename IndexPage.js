@@ -97,7 +97,7 @@ function createDealCard(deal) {
                 <div class="deal-card">
                     <div class="image-container">
                         <img src="${deal.mainImageUrl}" alt="${deal.title}" class="deal-image">
-                        <div class="discount-badge">-${deal.discount}%</div>
+                        <!--<div class="discount-badge">-${deal.discount}%</div>-->
                         <div class="overlay"></div>
                     </div>
                         ${supplierLogoHtml}
