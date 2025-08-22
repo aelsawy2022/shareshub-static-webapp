@@ -2068,9 +2068,7 @@ function initializeDropdownEvents() {
 
 function goBackToOffers() {
     // Navigate back to offers list
-    // You can modify this URL to match your offers listing page
-    window.location.href = './index.html'; // or wherever your offers list is
-    // Alternative: window.history.back(); if you want to go to previous page
+    window.location.href = './offers.html'; // Updated from index.html
 }
 
 function showNotifyModal() {

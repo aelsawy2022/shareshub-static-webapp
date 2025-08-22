@@ -68,6 +68,11 @@ function formatPrice(price) {
     return typeof price === 'number' ? `EGP ${price.toFixed(2)}` : `EGP ${price}`;
 }
 
+function getCategoryIdFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('categoryId');
+}
+
 function calculateProgress() {
     const sold = Math.floor(Math.random() * 20) + 5;
     const total = Math.floor(Math.random() * 10) + 25;
@@ -137,6 +142,18 @@ function createDealCard(deal) {
             `;
 }
 
+function updatePageTitle() {
+    const categoryId = getCategoryIdFromURL();
+    const titleElement = document.querySelector('.title');
+    
+    if (categoryId && titleElement) {
+        titleElement.textContent = 'Category Deals';
+        
+        // Optionally, you can fetch category name and display it
+        // This would require an additional API call to get category details
+    }
+}
+
 function renderDeals(deals) {
     const dealsHTML = deals.map(deal => createDealCard(deal)).join('');
 
@@ -159,11 +176,15 @@ function renderDeals(deals) {
 // Simulate API call
 async function fetchDeals() {
     try {
-        // Uncomment this section when your API is ready
 
-        const url = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Offers/filtered?isDisplayedOnWeb=true&orderByCreatedDateDesc=true';
-        // const url = 'https://localhost:7255/api/Offers/filtered?isDisplayedOnWeb=true&orderByCreatedDateDesc=true';
-
+        const categoryId = getCategoryIdFromURL();
+        let url = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Offers/filtered?isDisplayedOnWeb=true&orderByCreatedDateDesc=true';
+        // let url = 'https://localhost:7255/api/Offers/filtered?isDisplayedOnWeb=true&orderByCreatedDateDesc=true';
+        
+        if (categoryId) {
+            url += `&categoryId=${categoryId}`;
+        }
+        
         const response = await fetch(url);
         const result = await response.json();
 
@@ -202,6 +223,7 @@ async function init() {
     const contentElement = document.getElementById('content');
 
     try {
+        updatePageTitle();
         const deals = await fetchDeals();
         contentElement.innerHTML = renderDeals(deals);
 
