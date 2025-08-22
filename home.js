@@ -277,10 +277,10 @@ function createDealCard(deal) {
             <div class="deal-content">
                 <div class="deal-title">
                     <b style="color: var(--secondary);">${deal.supplier?.name || 'SharesHub'}</b> 
-                    UP TO <span style="color: var(--primary);"><b>${deal.discount}%</b></span> OFF
+                    UP TO <span style="color: var(--primary); font-size: 1.5rem;"><b>${deal.discount}%</b></span> OFF
                 </div>
                 <div class="deal-desc">${deal.desc}</div>
-                <div class="deal-pricing">
+                <!--<div class="deal-pricing">
                     <span class="current-price">${formatPrice(deal.currentPrice)}</span>
                     <span class="original-price">${formatPrice(deal.originalPrice)}</span>
                 </div>
@@ -289,7 +289,7 @@ function createDealCard(deal) {
                     <div class="progress-bar">
                         <div class="progress-fill" style="width: ${progress}%"></div>
                     </div>
-                </div>
+                </div>-->
                 <button class="join-btn" onclick="event.stopPropagation(); navigateToDeal(${deal.id})">
                     Discover More
                 </button>

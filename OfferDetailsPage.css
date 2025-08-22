@@ -95,23 +95,30 @@ body {
 }
 
 .back-btn {
-    /* background: none; */
-    /* border: 2px solid var(--secondary); */
+    background: none;
+    border: 2px solid var(--secondary);
     color: var(--secondary);
-    padding: 10px 15px;
-    margin-right: 50px;
-    /* remove this when you uncomment the back btn*/
+    padding: 8px 16px;
     border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
 }
 
-/* .back-btn:hover {
+.back-btn:hover {
     background: var(--secondary);
     color: white;
-    transform: translateX(-5px);
-} */
+    transform: translateX(-2px);
+}
+
+.back-btn i {
+    font-size: 0.8rem;
+}
+
 .logo {
     width: 48px;
     height: 48px;
@@ -567,11 +574,6 @@ body {
     color: var(--dark);
     margin-bottom: 8px;
 }
-
-/* .content-desc {
-    color: var(--gray-600);
-    margin-bottom: 12px;
-} */
 
 .content-meta {
     display: flex;
@@ -1659,19 +1661,54 @@ body {
     color: var(--gray-600);
     margin-bottom: 12px;
     transition: all 0.3s ease;
-    overflow: hidden;
+    overflow-y: auto; /* Add scrolling */
+    line-height: 1.5; /* Better readability */
 }
 
 .content-desc.collapsed {
     max-height: 0;
     margin-bottom: 0;
     opacity: 0;
+    overflow: hidden; /* Hide overflow when collapsed */
 }
 
 .content-desc.expanded {
-    max-height: 200px;
+    max-height: 150px; /* Reduced from 200px for better control */
     margin-bottom: 12px;
     opacity: 1;
+    overflow-y: auto; /* Enable scrolling when expanded */
+}
+
+/* Add custom scrollbar styling for the description */
+.content-desc::-webkit-scrollbar {
+    width: 4px;
+}
+
+.content-desc::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 2px;
+}
+
+.content-desc::-webkit-scrollbar-thumb {
+    background: var(--gray-400);
+    border-radius: 2px;
+}
+
+.content-desc::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
+}
+
+/* For Firefox */
+.content-desc {
+    scrollbar-width: thin;
+    scrollbar-color: var(--gray-400) var(--gray-100);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .content-desc.expanded {
+        max-height: 120px; /* Smaller max height on mobile */
+    }
 }
 
 .desc-toggle-btn {

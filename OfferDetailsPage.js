@@ -907,7 +907,17 @@ async function submitOrderToAPI(orderData) {
 
 // Event Handlers
 function goBack() {
-    window.history.back();
+    // Check if we came from a specific source or have history
+    const referrer = document.referrer;
+    const hasHistory = window.history.length > 1;
+    
+    if (hasHistory && referrer.includes(window.location.origin)) {
+        // Go back in browser history if we have it and came from same site
+        window.history.back();
+    } else {
+        // Default fallback to offers page
+        window.location.href = './offers.html';
+    }
 }
 
 function joinOffer() {
@@ -2067,8 +2077,7 @@ function initializeDropdownEvents() {
 }
 
 function goBackToOffers() {
-    // Navigate back to offers list
-    window.location.href = './offers.html'; // Updated from index.html
+    window.location.href = './offers.html';
 }
 
 function showNotifyModal() {

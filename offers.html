@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VR4E35ZH38"></script>
@@ -15,20 +16,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Featured Deals - SharesHub</title>
     <link rel="stylesheet" href="./offers.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <section class="section">
         <div class="container">
             <div id="content">
                 <!-- Loading state -->
                 <div class="loading" id="loading">
+                    <!-- Back button at top left -->
+                    <button class="back-btn-fixed" onclick="goBackToHome()">
+                        <i class="fas fa-arrow-left"></i>
+                        Home
+                    </button>
+
                     <div class="header">
                         <div class="logo-title">
-                            <img src="./SharesHub_Logo.jfif" alt="SharesHub Logo" class="logo" 
-                                 onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23ff8f4d\'/%3E%3Ctext x=\'50\' y=\'55\' text-anchor=\'middle\' fill=\'white\' font-size=\'20\' font-weight=\'bold\'%3ESH%3C/text%3E%3C/svg%3E';">
-                            <div style="width: 256px; height: 32px; background: #e5e7eb; border-radius: 8px; animation: pulse 2s infinite;"></div>
+                            <img src="./SharesHub_Logo.jfif" alt="SharesHub Logo" class="logo"
+                                onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23ff8f4d\'/%3E%3Ctext x=\'50\' y=\'55\' text-anchor=\'middle\' fill=\'white\' font-size=\'20\' font-weight=\'bold\'%3ESH%3C/text%3E%3C/svg%3E';">
+                            <div
+                                style="width: 256px; height: 32px; background: #e5e7eb; border-radius: 8px; animation: pulse 2s infinite;">
+                            </div>
                         </div>
-                        <div style="width: 384px; height: 16px; background: #e5e7eb; border-radius: 8px; margin: 0 auto; animation: pulse 2s infinite;"></div>
+                        <div
+                            style="width: 384px; height: 16px; background: #e5e7eb; border-radius: 8px; margin: 0 auto; animation: pulse 2s infinite;">
+                        </div>
                     </div>
                     <div class="spinner"></div>
                     <p style="color: var(--dark);">Loading amazing deals...</p>
@@ -38,4 +51,5 @@
     </section>
     <script src="./offers.js"></script>
 </body>
+
 </html>

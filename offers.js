@@ -73,6 +73,25 @@ function getCategoryIdFromURL() {
     return urlParams.get('categoryId');
 }
 
+function goBackToHome() {
+    window.location.href = './index.html';
+}
+
+function updateBackButtonVisibility() {
+    const backBtn = document.getElementById('backToHomeBtn');
+    if (backBtn && shouldShowBackButton()) {
+        backBtn.style.display = 'flex';
+    }
+}
+
+function shouldShowBackButton() {
+    const categoryId = getCategoryIdFromURL();
+    const referrer = document.referrer;
+
+    // Show back button if we have a category filter or came from home page
+    return categoryId || (referrer && referrer.includes('index.html'));
+}
+
 function calculateProgress() {
     const sold = Math.floor(Math.random() * 20) + 5;
     const total = Math.floor(Math.random() * 10) + 25;
@@ -145,10 +164,10 @@ function createDealCard(deal) {
 function updatePageTitle() {
     const categoryId = getCategoryIdFromURL();
     const titleElement = document.querySelector('.title');
-    
+
     if (categoryId && titleElement) {
         titleElement.textContent = 'Category Deals';
-        
+
         // Optionally, you can fetch category name and display it
         // This would require an additional API call to get category details
     }
@@ -158,19 +177,25 @@ function renderDeals(deals) {
     const dealsHTML = deals.map(deal => createDealCard(deal)).join('');
 
     return `
-                <div class="header">
-                    <div class="logo-title">
-                        <img src="./SharesHub_Logo.jfif" alt="SharesHub Logo" class="logo" 
-                             onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23ff8f4d\'/%3E%3Ctext x=\'50\' y=\'55\' text-anchor=\'middle\' fill=\'white\' font-size=\'20\' font-weight=\'bold\'%3ESH%3C/text%3E%3C/svg%3E';">
-                        <h1 class="title">Featured Deals</h1>
-                    </div>
-                    <p class="subtitle">Discover amazing offers and save big on your favorite products and services</p>
-                </div>
-                
-                <div class="deals-grid">
-                    ${dealsHTML}
-                </div>
-            `;
+        <!-- Fixed back button at top left -->
+        <button class="back-btn-fixed" onclick="goBackToHome()">
+            <i class="fas fa-arrow-left"></i>
+            Home
+        </button>
+        
+        <div class="header">
+            <div class="logo-title">
+                <img src="./SharesHub_Logo.jfif" alt="SharesHub Logo" class="logo" 
+                     onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23ff8f4d\'/%3E%3Ctext x=\'50\' y=\'55\' text-anchor=\'middle\' fill=\'white\' font-size=\'20\' font-weight=\'bold\'%3ESH%3C/text%3E%3C/svg%3E';">
+                <h1 class="title">Featured Deals</h1>
+            </div>
+            <p class="subtitle">Discover amazing offers and save big on your favorite products and services</p>
+        </div>
+        
+        <div class="deals-grid">
+            ${dealsHTML}
+        </div>
+    `;
 }
 
 // Simulate API call
@@ -180,11 +205,11 @@ async function fetchDeals() {
         const categoryId = getCategoryIdFromURL();
         let url = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Offers/filtered?isDisplayedOnWeb=true&orderByCreatedDateDesc=true';
         // let url = 'https://localhost:7255/api/Offers/filtered?isDisplayedOnWeb=true&orderByCreatedDateDesc=true';
-        
+
         if (categoryId) {
             url += `&categoryId=${categoryId}`;
         }
-        
+
         const response = await fetch(url);
         const result = await response.json();
 
@@ -241,15 +266,21 @@ async function init() {
 
     } catch (error) {
         contentElement.innerHTML = `
-                    <div class="header">
-                        <div class="logo-title">
-                            <img src="./SharesHub_Logo.jfif" alt="SharesHub Logo" class="logo" 
-                                 onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23ff8f4d\'/%3E%3Ctext x=\'50\' y=\'55\' text-anchor=\'middle\' fill=\'white\' font-size=\'20\' font-weight=\'bold\'%3ESH%3C/text%3E%3C/svg%3E';">
-                            <h2 style="color: var(--dark);">Unable to Load Deals</h2>
-                        </div>
-                        <p style="color: #6b7280;">${error.message}</p>
+            <!-- Always show back button even on error -->
+            <button class="back-btn-fixed" onclick="goBackToHome()">
+                <i class="fas fa-arrow-left"></i>
+                Home
+            </button>
+            
+            <div class="header">
+                <div class="logo-title">
+                    <img src="./SharesHub_Logo.jfif" alt="SharesHub Logo" class="logo" 
+                         onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23ff8f4d\'/%3E%3Ctext x=\'50\' y=\'55\' text-anchor=\'middle\' fill=\'white\' font-size=\'20\' font-weight=\'bold\'%3ESH%3C/text%3E%3C/svg%3E';">
+                        <h2 style="color: var(--dark);">Unable to Load Deals</h2>
                     </div>
-                `;
+                    <p style="color: #6b7280;">${error.message}</p>
+                </div>
+            `;
     }
 }
 
