@@ -184,8 +184,8 @@ function initSliderEvents() {
 // API Functions
 async function fetchCategories() {
     try {
-        // const url = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Categories/grouped-by-type?isDisplayedOnWeb=true';
-        const url = 'https://localhost:7255/api/Categories/grouped-by-type?isDisplayedOnWeb=true';
+        const url = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Categories/grouped-by-type?isDisplayedOnWeb=true';
+        // const url = 'https://localhost:7255/api/Categories/grouped-by-type?isDisplayedOnWeb=true';
 
         const response = await fetch(url);
         const result = await response.json();
