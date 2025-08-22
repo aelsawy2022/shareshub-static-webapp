@@ -1,5 +1,9 @@
 
 
+let subcategoriesData = null;
+let selectedSubcategoryId = null;
+let dealsData = null;
+
 // Mock data matching your API structure
 const mockDeals = [
     {
@@ -161,6 +165,17 @@ function createDealCard(deal) {
             `;
 }
 
+function createSubcategoryChip(subcategory) {
+    const iconHTML = subcategory.icon ? `<i class="fas fa-${subcategory.icon} chip-icon"></i>` : '';
+    
+    return `
+        <div class="subcategory-chip" onclick="selectSubcategory(${subcategory.id})" data-subcategory-id="${subcategory.id}">
+            ${iconHTML}
+            <span>${subcategory.name}</span>
+        </div>
+    `;
+}
+
 function updatePageTitle() {
     const categoryId = getCategoryIdFromURL();
     const titleElement = document.querySelector('.title');
@@ -192,20 +207,149 @@ function renderDeals(deals) {
             <p class="subtitle">Discover amazing offers and save big on your favorite products and services</p>
         </div>
         
+        <!-- Subcategory chips container - right after header -->
+        <div class="subcategory-chips-container" id="subcategoryChipsContainer" style="display: none;">
+            <div class="container">
+                <div class="chips-wrapper">
+                    <div class="chips-scroll">
+                        <!-- Subcategory chips will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="deals-grid">
             ${dealsHTML}
         </div>
     `;
 }
 
+function renderSubcategoryChips(subcategories) {
+    const chipsContainer = document.querySelector('#subcategoryChipsContainer .chips-scroll');
+    if (!chipsContainer) return;
+
+    if (!subcategories || subcategories.length === 0) {
+        // Hide the container if no subcategories
+        document.getElementById('subcategoryChipsContainer').style.display = 'none';
+        return;
+    }
+
+    // Show the container
+    document.getElementById('subcategoryChipsContainer').style.display = 'block';
+
+    // Create "All" chip
+    let chipsHTML = `
+        <div class="subcategory-chip all active" onclick="selectSubcategory(null)" data-subcategory-id="all">
+            <i class="fas fa-th chip-icon"></i>
+            <span>All</span>
+        </div>
+    `;
+
+    // Add subcategory chips
+    chipsHTML += subcategories.map(subcategory => createSubcategoryChip(subcategory)).join('');
+    
+    chipsContainer.innerHTML = chipsHTML;
+}
+
+function selectSubcategory(subcategoryId) {
+    selectedSubcategoryId = subcategoryId;
+    
+    // Update chip states
+    const chips = document.querySelectorAll('.subcategory-chip');
+    chips.forEach(chip => {
+        chip.classList.remove('active');
+        const chipSubcategoryId = chip.getAttribute('data-subcategory-id');
+        if ((subcategoryId === null && chipSubcategoryId === 'all') || 
+            (subcategoryId && chipSubcategoryId == subcategoryId)) {
+            chip.classList.add('active');
+        }
+    });
+
+    // Filter and re-render deals
+    filterAndRenderDeals();
+}
+
+function filterAndRenderDeals() {
+    if (!dealsData) return;
+
+    let filteredDeals = dealsData;
+    
+    // Filter by subcategory if one is selected
+    if (selectedSubcategoryId) {
+        filteredDeals = dealsData.filter(deal => deal.categoryId === selectedSubcategoryId);
+    }
+
+    // Update the deals grid
+    const dealsGrid = document.querySelector('.deals-grid');
+    if (dealsGrid) {
+        const dealsHTML = filteredDeals.map(deal => createDealCard(deal)).join('');
+        dealsGrid.innerHTML = dealsHTML || '<div style="text-align: center; padding: 40px; color: var(--gray-600);">No deals found for this category.</div>';
+        
+        // Animate progress bars
+        setTimeout(() => {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+        }, 100);
+    }
+}
+
+async function loadSubcategories() {
+    const categoryId = getCategoryIdFromURL();
+    const subcategoryContainer = document.getElementById('subcategoryChipsContainer');
+    
+    if (!categoryId) {
+        // Hide subcategory container if no category is selected
+        if (subcategoryContainer) {
+            subcategoryContainer.style.display = 'none';
+        }
+        return;
+    }
+
+    if (!subcategoryContainer) {
+        console.warn('Subcategory container not found');
+        return;
+    }
+
+    try {
+        // Show loading state
+        const chipsContainer = document.querySelector('#subcategoryChipsContainer .chips-scroll');
+        if (chipsContainer) {
+            chipsContainer.innerHTML = `
+                <div class="chips-loading">
+                    <div class="chip-skeleton"></div>
+                    <div class="chip-skeleton"></div>
+                    <div class="chip-skeleton"></div>
+                    <div class="chip-skeleton"></div>
+                    <div class="chip-skeleton"></div>
+                </div>
+            `;
+        }
+        subcategoryContainer.style.display = 'block';
+
+        const subcategories = await fetchSubcategories(categoryId);
+        subcategoriesData = subcategories;
+        renderSubcategoryChips(subcategories);
+    } catch (error) {
+        console.error('Failed to load subcategories:', error);
+        if (subcategoryContainer) {
+            subcategoryContainer.style.display = 'none';
+        }
+    }
+}
+
 // Simulate API call
 async function fetchDeals() {
     try {
-
         const categoryId = getCategoryIdFromURL();
-        let url = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Offers/filtered?isDisplayedOnWeb=true&orderByCreatedDateDesc=true';
-        // let url = 'https://localhost:7255/api/Offers/filtered?isDisplayedOnWeb=true&orderByCreatedDateDesc=true';
-
+        let url = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Offers/filtered?isDisplayedOnWeb=true';
+        // let url = 'https://localhost:7255/api/Offers/filtered?isDisplayedOnWeb=true';
+        
         if (categoryId) {
             url += `&categoryId=${categoryId}`;
         }
@@ -218,17 +362,27 @@ async function fetchDeals() {
         } else {
             throw new Error(result.message || 'Failed to fetch deals');
         }
-
-
-        // Using mock data for demonstration
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve(mockDeals);
-            }, 1500);
-        });
-
     } catch (error) {
         throw new Error('Failed to load deals: ' + error.message);
+    }
+}
+
+async function fetchSubcategories(categoryId) {
+    try {
+        const url = `https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Categories/${categoryId}/subcategories`;
+        // const url = `https://localhost:7255/api/Categories/${categoryId}/subcategories`;
+
+        const response = await fetch(url);
+        const result = await response.json();
+
+        if (result.succeeded) {
+            return result.data;
+        } else {
+            throw new Error(result.message || 'Failed to fetch subcategories');
+        }
+    } catch (error) {
+        console.error('Error fetching subcategories:', error);
+        return []; // Return empty array on error
     }
 }
 
@@ -249,10 +403,16 @@ async function init() {
 
     try {
         updatePageTitle();
+        
+        // Only fetch deals first, don't load subcategories yet
         const deals = await fetchDeals();
+        
+        dealsData = deals;
         contentElement.innerHTML = renderDeals(deals);
+        
+        // NOW load subcategories after the HTML is rendered
+        await loadSubcategories();
 
-        // Animate progress bars after render
         setTimeout(() => {
             const progressBars = document.querySelectorAll('.progress-fill');
             progressBars.forEach(bar => {
@@ -266,7 +426,6 @@ async function init() {
 
     } catch (error) {
         contentElement.innerHTML = `
-            <!-- Always show back button even on error -->
             <button class="back-btn-fixed" onclick="goBackToHome()">
                 <i class="fas fa-arrow-left"></i>
                 Home

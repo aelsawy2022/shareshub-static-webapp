@@ -203,8 +203,8 @@ async function fetchCategories() {
 
 async function fetchFeaturedDeals() {
     try {
-        const url = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Offers/filtered?isDisplayedOnWeb=true&orderByCreatedDateDesc=true';
-        // const url = 'https://localhost:7255/api/Offers/filtered?isDisplayedOnWeb=true&orderByCreatedDateDesc=true';
+        const url = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Offers/filtered?isDisplayedOnWeb=true';
+        // const url = 'https://localhost:7255/api/Offers/filtered?isDisplayedOnWeb=true';
 
         const response = await fetch(url);
         const result = await response.json();
