@@ -271,7 +271,6 @@ function createDealCard(deal) {
         <div class="deal-card" onclick="navigateToDeal(${deal.id})">
             <div class="deal-image-container">
                 <img src="${deal.mainImageUrl}" alt="${deal.title}" class="deal-image">
-                <div class="discount-badge">-${deal.discount}%</div>
                 ${supplierLogoHTML}
             </div>
             <div class="deal-content">
