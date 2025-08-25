@@ -8,6 +8,9 @@ let slideInterval;
 let isAutoPlaying = true;
 const autoPlayDelay = 4000; // 4 seconds
 
+const API_URL = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api';
+// const API_URL = 'https://localhost:7255/api';
+
 // Mock banner data (replace with actual API data)
 const bannerData = [
     {
@@ -184,8 +187,7 @@ function initSliderEvents() {
 // API Functions
 async function fetchCategories() {
     try {
-        const url = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Categories/grouped-by-type?isDisplayedOnWeb=true';
-        // const url = 'https://localhost:7255/api/Categories/grouped-by-type?isDisplayedOnWeb=true';
+        const url = `${API_URL}/Categories/grouped-by-type?isDisplayedOnWeb=true`;
 
         const response = await fetch(url);
         const result = await response.json();
@@ -203,8 +205,7 @@ async function fetchCategories() {
 
 async function fetchFeaturedDeals() {
     try {
-        const url = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Offers/filtered?isDisplayedOnWeb=true';
-        // const url = 'https://localhost:7255/api/Offers/filtered?isDisplayedOnWeb=true';
+        const url = `${API_URL}/Offers/filtered?isDisplayedOnWeb=true`;
 
         const response = await fetch(url);
         const result = await response.json();

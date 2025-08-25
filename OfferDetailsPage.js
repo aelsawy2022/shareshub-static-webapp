@@ -2,6 +2,9 @@
 let offerData = null;
 let selectedQuantities = {};
 
+const API_URL = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api';
+// const API_URL = 'https://localhost:7255/api';
+
 // Utility Functions
 function formatPrice(price) {
     return `EGP ${parseFloat(price).toFixed(2)}`;
@@ -866,8 +869,8 @@ function buildOrderData(selectedItems) {
 async function submitOrderToAPI(orderData) {
     try {
         // Uncomment this when your API is ready
-        // const url = 'https://localhost:7255/api/Orders/place-validation-order';
-        const url = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Orders/place-validation-order';
+        const url = `${API_URL}/Orders/place-validation-order`;
+
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -1141,8 +1144,7 @@ function trackShareEvent(platform) {
 async function fetchOfferDetails(offerId) {
     try {
         // Uncomment this when your API is ready
-        const url = `https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Offers/${offerId}/details`;
-        // const url = `https://localhost:7255/api/Offers/${offerId}/details`
+        const url = `${API_URL}/Offers/${offerId}/details`;
 
         const response = await fetch(url);
         const result = await response.json();
@@ -1502,9 +1504,8 @@ let currentSurveyId = null;
 async function fetchSurveyData() {
     try {
         console.log('Fetching survey data...'); // Debug log
-        
-        const url = `https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Surveys/5`;
-        // const url = `https://localhost:7255/api/Surveys/5`
+
+        const url = `${API_URL}/Surveys/5`;
 
         const response = await fetch(url);
         
@@ -1711,8 +1712,7 @@ async function submitSurvey() {
             responses: responses
         };
 
-        const url = `https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Surveys/submit`;
-        // const url = `https://localhost:7255/Surveys/submit`
+        const url = `${API_URL}/Surveys/submit`;
 
         // Submit to API
         const response = await fetch(url, {

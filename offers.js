@@ -4,6 +4,9 @@ let subcategoriesData = null;
 let selectedSubcategoryId = null;
 let dealsData = null;
 
+const API_URL = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api';
+// const API_URL = 'https://localhost:7255/api';
+
 // Mock data matching your API structure
 const mockDeals = [
     {
@@ -347,8 +350,7 @@ async function loadSubcategories() {
 async function fetchDeals() {
     try {
         const categoryId = getCategoryIdFromURL();
-        let url = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Offers/filtered?isDisplayedOnWeb=true';
-        // let url = 'https://localhost:7255/api/Offers/filtered?isDisplayedOnWeb=true';
+        let url = `${API_URL}/Offers/filtered?isDisplayedOnWeb=true`;
         
         if (categoryId) {
             url += `&categoryId=${categoryId}`;
@@ -369,8 +371,7 @@ async function fetchDeals() {
 
 async function fetchSubcategories(categoryId) {
     try {
-        const url = `https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azurewebsites.net/api/Categories/${categoryId}/subcategories`;
-        // const url = `https://localhost:7255/api/Categories/${categoryId}/subcategories`;
+        const url = `${API_URL}/Categories/${categoryId}/subcategories`;
 
         const response = await fetch(url);
         const result = await response.json();
