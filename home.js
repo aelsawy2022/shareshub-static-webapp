@@ -15,25 +15,25 @@ const API_URL = 'https://shareshubapi-gmhbgtcqhef5dfcj.canadacentral-01.azureweb
 const bannerData = [
     {
         id: 1,
-        title: "Summer Sale",
-        description: "Up to 70% off on all categories",
-        image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800&h=400&fit=crop",
+        title: "",
+        description: "Up to 58% off on all categories",
+        image: "https://staticwebappimages.blob.core.windows.net/shareshubimages/Summer Sale Promotion Banner.png",
         link: "#"
     },
-    {
-        id: 2,
-        title: "Tech Deals",
-        description: "Latest gadgets at unbeatable prices",
-        image: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&h=400&fit=crop",
-        link: "#"
-    },
-    {
-        id: 3,
-        title: "Fashion Week",
-        description: "Trendy clothes for everyone",
-        image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=400&fit=crop",
-        link: "#"
-    }
+    // {
+    //     id: 2,
+    //     title: "Tech Deals",
+    //     description: "Latest gadgets at unbeatable prices",
+    //     image: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&h=400&fit=crop",
+    //     link: "#"
+    // },
+    // {
+    //     id: 3,
+    //     title: "Fashion Week",
+    //     description: "Trendy clothes for everyone",
+    //     image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=400&fit=crop",
+    //     link: "#"
+    // }
 ];
 
 // Utility Functions
