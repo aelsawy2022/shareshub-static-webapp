@@ -2913,3 +2913,121 @@ body {
         max-height: calc(95vh - 120px);
     }
 }
+
+
+/* Coupon Input Group */
+.coupon-input-group {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.coupon-input {
+    flex: 1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+}
+
+.coupon-input::placeholder {
+    text-transform: none;
+    letter-spacing: normal;
+    font-family: inherit;
+    font-weight: normal;
+}
+
+.apply-coupon-btn {
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(8, 172, 171, 0.3);
+    white-space: nowrap;
+    min-width: 80px;
+}
+
+.apply-coupon-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(8, 172, 171, 0.4);
+}
+
+.apply-coupon-btn:disabled {
+    background: var(--gray-400);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.apply-coupon-btn.loading {
+    position: relative;
+    color: transparent;
+}
+
+.apply-coupon-btn.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.apply-coupon-btn.applied {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+/* Success Message */
+.success-message {
+    color: #10b981;
+    font-size: 0.75rem;
+    margin-top: 4px;
+    display: none;
+    font-weight: 600;
+}
+
+.success-message.show {
+    display: block;
+}
+
+.success-message i {
+    margin-right: 4px;
+}
+
+/* Mobile adjustments for coupon input */
+@media (max-width: 768px) {
+    .coupon-input-group {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .apply-coupon-btn {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+/* Coupon discount row in order summary */
+.summary-row.coupon-discount {
+    background: rgba(16, 185, 129, 0.1);
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin: 8px 0;
+    font-weight: 600;
+    color: #10b981;
+}
+
+.coupon-code-label {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    margin-left: 4px;
+}
